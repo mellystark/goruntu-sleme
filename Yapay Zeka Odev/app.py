@@ -1,59 +1,65 @@
 from flask import Flask, request, jsonify, render_template
 import base64
-from io import BytesIO
-from PIL import Image
-import numpy as np
 import cv2
-import processing  # processing.py'den fonksiyonları import ediyoruz
+import numpy as np
+from processing import (grayscale, blur, canny, harris, contour, sharpen, 
+                        rotate, flip, sepia, threshold, histogram, dilation, erosion)
 
 app = Flask(__name__)
 
-# Helper function to decode base64 image
-def decode_base64_image(data_url):
-    img_data = base64.b64decode(data_url.split(',')[1])
-    img = Image.open(BytesIO(img_data))
-    img = np.array(img)
-    return cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
+# Ana sayfa rota
 @app.route('/')
-def index():
+def home():
     return render_template('index.html')
 
+# Görüntü işleme rota
 @app.route('/process', methods=['POST'])
 def process_image():
-    data = request.get_json()
-
-    if not data or 'image' not in data or 'operation' not in data:
-        return jsonify({"error": "No image or operation specified"}), 400
-
+    data = request.json
     image_data = data['image']
     operation = data['operation']
 
-    # Decode base64 image
-    image = decode_base64_image(image_data)
+    # Base64 çözme
+    nparr = np.frombuffer(base64.b64decode(image_data.split(',')[1]), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-    # Perform selected operation
+    # İşlem seçimi
     if operation == 'grayscale':
-        processed_image = processing.convert_to_grayscale(image)
+        processed_img = grayscale(img)
     elif operation == 'blur':
-        processed_image = processing.blur_image(image)
+        processed_img = blur(img)
     elif operation == 'canny':
-        processed_image = processing.canny_edge_detection(image)
+        processed_img = canny(img)
     elif operation == 'harris':
-        processed_image = processing.harris_corner_detection(image)
+        processed_img = harris(img)
     elif operation == 'contour':
-        processed_image = processing.contour_detection(image)
+        processed_img = contour(img)
+    elif operation == 'sharpen':
+        processed_img = sharpen(img)
+    elif operation == 'rotate':
+        processed_img = rotate(img)
+    elif operation == 'flip':
+        processed_img = flip(img)
+    elif operation == 'sepia':
+        processed_img = sepia(img)
+    elif operation == 'threshold':
+        processed_img = threshold(img)
+    elif operation == 'histogram':
+        processed_img = histogram(img)
+    elif operation == 'dilation':
+        processed_img = dilation(img)
+    elif operation == 'erosion':
+        processed_img = erosion(img)
     else:
-        return jsonify({"error": "Invalid operation"}), 400
+        return jsonify({'error': 'Geçersiz işlem'}), 400
 
-    # Convert processed image back to base64
-    _, buffer = cv2.imencode('.png', processed_image)
-    processed_image_base64 = base64.b64encode(buffer).decode('utf-8')
+    # Base64'e dönüştürme
+    _, buffer = cv2.imencode('.png', processed_img)
+    processed_image_data = base64.b64encode(buffer).decode('utf-8')
 
-    # Return both the original and processed images
     return jsonify({
-        "original": image_data,
-        "processed": f"data:image/png;base64,{processed_image_base64}"
+        'original': image_data,
+        'processed': f"data:image/png;base64,{processed_image_data}"
     })
 
 if __name__ == '__main__':
