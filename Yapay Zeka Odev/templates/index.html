@@ -4,233 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Görüntü İşleme Uygulaması</title>
-    <link rel="icon" href="data:image/x-icon;,">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Arial', sans-serif;
-            padding: 30px 20px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            margin-bottom: 30px;
-        }
-
-        .card-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        #video-container {
-            position: relative;
-            width: 100%;
-            max-width: 100%;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        #camera {
-            width: 100%;
-            border-radius: 10px;
-            border: 3px solid #ddd;
-        }
-
-        canvas {
-            display: none;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            border-radius: 8px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        #apply-operation {
-            margin-top: 20px;
-        }
-
-        #result-container {
-            margin-top: 30px;
-        }
-
-        img {
-            width: 100%;
-            max-height: 300px;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-
-        #original, #processed {
-            margin-top: 20px;
-        }
-
-        .row {
-            margin-top: 25px;
-        }
-
-        .col-md-6 {
-            padding: 15px;
-        }
-
-        .select-container {
-            margin-top: 20px;
-        }
-
-        select.form-select {
-            border-radius: 8px;
-            padding: 8px;
-        }
-    </style>
+    <link rel="icon" href="data:image/x-icon,;">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <!-- Başlangıç Card'ı -->
-        <div class="card">
-            <h2 class="card-title text-center">Görüntü İşleme</h2>
-            <div class="text-center">
-                <div id="video-container">
-                    <video id="camera" autoplay></video>
-                    <canvas id="snapshot"></canvas>
+    <div class="container mt-5">
+        <!-- Sekmeler -->
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="pills-operation-tab" data-bs-toggle="pill" href="#pills-operation" role="tab" aria-controls="pills-operation" aria-selected="true">İşlem</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="pills-result-tab" data-bs-toggle="pill" href="#pills-result" role="tab" aria-controls="pills-result" aria-selected="false">Sonuç</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <!-- İşlem Tabı -->
+            <div class="tab-pane fade show active" id="pills-operation" role="tabpanel" aria-labelledby="pills-operation-tab">
+                <div class="card">
+                    <h2 class="card-title text-center">Görüntü İşleme</h2>
+                    <div class="text-center">
+                        <div id="video-container">
+                            <video id="camera" autoplay></video>
+                            <canvas id="snapshot"></canvas>
+                        </div>
+                        <button id="capture" class="btn btn-pink btn-lg mt-3">Fotoğraf Çek</button>
+                        <input type="file" id="file" class="form-control mt-3" />
+                        <button id="upload-btn" class="btn btn-pink btn-lg mt-3">Resim Yükle</button>
+                    </div>
                 </div>
-                <button id="capture" class="btn btn-primary mt-3">Fotoğraf Çek</button>
-                <input type="file" id="file" class="mt-3" />
-                <button id="upload-btn" class="btn btn-secondary mt-3">Resim Yükle</button>
+            </div>
+            
+
+                <!-- İşlem Seçme -->
+                <div class="card mt-3">
+                    <div class="form-group select-container">
+                        <label for="operation-select">İşlem Seçin</label>
+                        <select id="operation-select" class="form-select">
+                            <option value="grayscale">Gri Tonlama</option>
+                            <option value="blur">Bulanıklaştırma</option>
+                            <option value="canny">Kenar Tespiti</option>
+                            <option value="harris">Harris Köşe Tespiti</option>
+                            <option value="contour">Kontur Tespiti</option>
+                            <option value="sharpen">Keskinleştirme</option>
+                            <option value="rotate">Döndürme</option>
+                            <option value="flip">Ayna Yansıması</option>
+                            <option value="sepia">Sepya Efekti</option>
+                            <option value="threshold">Eşikleme</option>
+                            <option value="histogram">Histogram Eşitleme</option>
+                            <option value="dilation">Genişletme</option>
+                            <option value="erosion">Erozyon</option>
+                        </select>
+                    </div>
+                    <button id="apply-operation" class="btn btn-success btn-lg w-100">İşlemi Uygula</button>
+                </div>
+            </div>
+
+            <!-- Sonuç Tabı -->
+            <div class="tab-pane fade" id="pills-result" role="tabpanel" aria-labelledby="pills-result-tab">
+                <h4 class="text-center">Sonuç</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Orijinal Resim</h5>
+                        <img id="original" src="" alt="Orijinal Resim" class="img-fluid">
+                    </div>
+                    <div class="col-md-6">
+                        <h5>İşlenmiş Resim</h5>
+                        <img id="processed" src="" alt="İşlenmiş Resim" class="img-fluid">
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- İşlem Seçme Card'ı -->
-        <div class="card">
-            <div class="form-group select-container">
-                <label for="operation-select">İşlem Seçin</label>
-                <select id="operation-select" class="form-select">
-                    <option value="grayscale">Gri Tonlama</option>
-                    <option value="blur">Bulanıklaştırma</option>
-                    <option value="canny">Kenar Tespiti</option>
-                    <option value="harris">Harris Köşe Tespiti</option>
-                    <option value="contour">Kontur Tespiti</option>
-                    <option value="sharpen">Keskinleştirme</option>
-                    <option value="rotate">Döndürme</option>
-                    <option value="flip">Ayna Yansıması</option>
-                    <option value="sepia">Sepya Efekti</option>
-                    <option value="threshold">Eşikleme</option>
-                    <option value="histogram">Histogram Eşitleme</option>
-                    <option value="dilation">Genişletme</option>
-                    <option value="erosion">Erozyon</option>
-                </select>
-                
-            </div>
-            <button id="apply-operation" class="btn btn-success w-100">İşlemi Uygula</button>
+        <!-- Toast Mesajı -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Bildirim</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-
-        <!-- Sonuç Card'ı -->
-        <div id="result-container" class="card">
-            <h4 class="text-center">Sonuç</h4>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Orijinal Resim</h5>
-                    <img id="original" src="" alt="Orijinal Resim">
-                </div>
-                <div class="col-md-6">
-                    <h5>İşlenmiş Resim</h5>
-                    <img id="processed" src="" alt="İşlenmiş Resim">
-                </div>
-            </div>
+        <div class="toast-body">
+            <!-- Mesaj buraya gelecek -->
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        const video = document.getElementById('camera');
-        const canvas = document.getElementById('snapshot');
-        const captureButton = document.getElementById('capture');
-        const uploadButton = document.getElementById('upload-btn');
-        const fileInput = document.getElementById('file');
-        const applyOperationButton = document.getElementById('apply-operation');
-        const operationSelect = document.getElementById('operation-select');
-    
-        let currentImageData = null; // Yüklenen veya çekilen son resim burada saklanacak
-    
-        // Kamera Akışını Başlat
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
-                video.srcObject = stream;
-            })
-            .catch(error => {
-                console.error('Kamera açılırken bir hata oluştu: ', error);
-            });
-    
-        // Fotoğraf Çekme
-        captureButton.addEventListener('click', () => {
-            const context = canvas.getContext('2d');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            currentImageData = canvas.toDataURL('image/png');  // Kameradan alınan görüntü
-            applyImageProcessing(currentImageData);  // Bu görüntüye işlem uygula
-        });
-    
-        // Resim Yükleme
-        uploadButton.addEventListener('click', () => {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    currentImageData = e.target.result;  // Yüklenen dosyanın base64 kodu
-                    applyImageProcessing(currentImageData);  // Bu görüntüye işlem uygula
-                };
-                reader.readAsDataURL(file);
-            } else {
-                alert('Lütfen bir resim seçin.');
-            }
-        });
-    
-        // Görüntü İşleme
-        applyOperationButton.addEventListener('click', () => {
-            const selectedOperation = operationSelect.value;
-    
-            if (currentImageData) {  // Eğer geçerli bir resim varsa
-                applyImageProcessing(currentImageData, selectedOperation);  // Seçilen işlemi uygula
-            } else {
-                alert('Lütfen bir resim yükleyin veya fotoğraf çekin.');
-            }
-        });
-    
-        function applyImageProcessing(imageData, operation = 'grayscale') {
-            fetch('/process', {
-                method: 'POST',
-                body: JSON.stringify({ image: imageData, operation: operation }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('original').src = data.original;
-                document.getElementById('processed').src = data.processed;
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-            });
-        }
-    </script>    
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

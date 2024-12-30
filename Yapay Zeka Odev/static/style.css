@@ -1,43 +1,242 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+
+/* Sekmeler */
+.nav-pills .nav-link.active {
+    background-color: #ec407a; /* Pembe aktif sekme rengi */
 }
 
-.container {
-    text-align: center;
-    background-color: white;
-    padding: 20px;
+
+
+/* Buton Hover */
+.btn-pink:hover {
+    background-color: #d81b60; /* Daha koyu pembe hover rengi */
+    transform: translateY(-5px); /* Hover'da buton biraz yukarı kalkar */
+}
+
+/* Fotoğraf Çek ve Yükle Butonları */
+#capture{
+    margin-top: 170px !important;
+}
+#upload-btn {
+    margin: 10px !important;
+}
+
+/* Dosya Seçim Alanı */
+#file {
+    padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.controls {
-    margin-bottom: 20px;
-}
-
-#camera {
+    border: 2px solid #f48fb1;  /* Pembe tonlarında sınır */
+    background-color: #fce4ec;  /* Hafif pembe arka plan */
     width: 100%;
-    max-width: 500px;
-    margin-bottom: 20px;
-}
-
-button, select {
-    margin: 10px;
-    padding: 10px;
     font-size: 16px;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-.results {
+#file:hover {
+    background-color: #f8bbd0;  /* Hover durumunda daha koyu pembe */
+    border-color: #f50057;  /* Hover sırasında sınır rengi */
+}
+
+#video-container {
+    display: flex;
+    flex-direction: column;  /* İçeriği dikey olarak yerleştir */
+    justify-content: center; /* Yatayda ortalamak için */
+    align-items: center;     /* Dikeyde ortalamak için */
+    height: 400px;           /* Video alanı için yükseklik belirleme */
+    width: 100%;             /* Video genişliği %100 yapma */
+    background-color: #fce4ec; /* Hafif pembe arka plan */
+    border-radius: 10px;     /* Kenarları yuvarlatma */
+    margin-top: 120px;        /* Video alanı ile başlık arasına boşluk ekleyelim */
+}
+
+#camera, #snapshot {
+    width: 480px;   /* Sabit genişlik */
+    height: 400px;  /* Sabit yükseklik */
+    border-radius: 10px; /* Yuvarlak köşeler */
+    margin-bottom: 12px;
+}
+/* İşlem Seçme Alanı */
+#operation-select {
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #f48fb1;
+    background-color: #fce4ec;
+    width: 100%;
+    font-size: 16px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+#operation-select:hover {
+    background-color: #f8bbd0;
+    border-color: #f50057;
+}
+
+/* Fotoğraf Çek ve Resim Yükle Butonları */
+.btn-pink {
+    background-color: #f48fb1; /* Pembe tonları */
+    color: white;
+    border: none;
+    border-radius: 10px; /* Yuvarlak köşeler */
+    padding: 15px 30px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-pink:hover {
+    background-color: #f50057; /* Hoverda koyu pembe */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* İşlemi Uygula Butonu */
+#apply-operation {
+    background-color: #81c784; /* Yeşil tonunda */
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#apply-operation:hover {
+    background-color: #66bb6a;  /* Hoverda daha koyu yeşil */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+/* Daha spesifik bir seçici ile card-title'ı stilize edelim */
+.card .card-title {
+    color: #f50057; /* Pembe başlık rengi */
+    font-size: 48px; /* Başlık boyutunu büyütüyoruz */
+    font-weight: bold; /* Kalın yazı tipi */
+    text-align: center; /* Başlığı ortalayalım */
+    margin-top: 80px; /* Başlık ile üst kısım arasında boşluk */
+    margin-bottom: 60px; /* Başlık ile içerik arasında boşluk */
+    letter-spacing: 2px; /* Harfler arasına biraz boşluk ekleyelim */
+}
+
+.text-center{
+    color: #d81b60;
+    background-color: #fce4ec !important;  /* Pembe tonunda bir arka plan */
+    border-radius: 10px !important;  /* Yuvarlak köşeler */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;  /* Hafif gölge */
+    padding: 20px !important;  /* İçerik için boşluk */
+}
+
+.select-container label {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f50057;
+    text-align: center;
+    display: block;
+    margin: 0 auto 20px auto;
+    width: fit-content;
+}
+/* 'Select' için stil */
+#operation-select {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 2px solid #f48fb1;
+    background-color: #fce4ec;
+    width: 100%;
+}
+
+/* 'Uygula' Butonu için stil */
+#apply-operation {
+    background-color: #81c784; /* Yeşil tonunda */
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 15px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+/* İşlem Seçme */
+.select-container select {
+    border-radius: 10px; /* Yuvarlatılmış seçim kutusu */
+    border: 2px solid #ec407a;
+    padding: 12px 20px;
+}
+
+/* İşlenmiş ve Orijinal Resim Arasındaki Mesafe */
+.row {
     margin-top: 20px;
 }
+/* Genel stil */
+body {
+    background: linear-gradient(135deg, #f5c6cb, #f8d7da);  /* Pembe tonlarında gradient */
+    font-family: 'Arial', sans-serif;
+}
 
-#original, #processed {
-    width: 100%;
-    max-width: 500px;
-    margin-top: 10px;
+/* Butonlar için stil */
+.btn-pink {
+    background-color: #d63384;
+    color: white;
+    border: none;
+    border-radius: 30px;  /* Yuvarlak köşeler */
+    padding: 15px 30px;
+    font-size: 18px;
+    transition: all 0.3s ease;  /* Geçiş efekti */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Hafif gölge */
+}
+
+.btn-pink:hover {
+    background-color: #f068b6; /* Hover rengi */
+    box-shadow: 0 8px 15px rgba(214, 51, 132, 0.5); /* Gölgeleme efekti */
+    transform: translateY(-5px);  /* Buton yukarı kayar */
+}
+
+.btn-lg {
+    font-size: 20px;
+    padding: 20px 40px;
+}
+
+/* Resimler için stil */
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;  /* Resim kenarlarını yuvarlak yapar */
+}
+
+/* .card arka planını değiştiren stil */
+.card {
+    background-color: #fce4ec !important;  /* Pembe tonunda bir arka plan */
+    border-radius: 10px !important;  /* Yuvarlak köşeler */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;  /* Hafif gölge */
+    padding: 30px !important;  /* İçerik için boşluk */
+}
+
+
+/* Toast Mesajı */
+.toast-container {
+    z-index: 9999; /* Toast'ın üstte görünmesini sağlar */
+}
+
+.toast {
+    background-color: #f8bbd0; /* Pembe tonunda bir arka plan */
+    color: #ffffff; /* Yazı rengini beyaz yapıyoruz */
+    border-radius: 12px; /* Yuvarlatılmış köşeler */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Hafif bir gölge efekti */
+    opacity: 0; /* Başlangıçta gizli */
+    transition: opacity 0.5s ease; /* Gözle görünür geçiş */
+}
+
+.toast.show {
+    opacity: 1; /* Gösterildiğinde tamamen görünür */
+}
+
+.toast-header {
+    background-color: #f48fb1; /* Başlık için biraz daha koyu pembe */
+    color: #ffffff; /* Başlık metninin beyaz olması */
+    font-weight: bold; /* Başlık metni kalın */
+    border-radius: 12px 12px 0 0; /* Üst köşeleri yuvarlat */
+}
+
+.toast-body {
+    padding: 15px; /* İç boşluk */
+}
+
+.toast .btn-close {
+    color: #ffffff; /* Kapatma butonunun rengi beyaz */
+    opacity: 1; /* Kapatma butonunun da görünür olmasını sağla */
+}
+
+.toast .btn-close:hover {
+    color: #000000; /* Kapatma butonunun üzerine gelindiğinde renk değişir */
 }
