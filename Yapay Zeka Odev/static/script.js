@@ -6,11 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file');
     const applyOperationButton = document.getElementById('apply-operation');
     const operationSelect = document.getElementById('operation-select');
+    const inputSelect = document.getElementById('input-select'); // Yeni eklenen element
 
     let currentImageData = null; // Yüklenen veya çekilen son resim burada saklanacak
 
     // Kamera Akışını Başlat
-    navigator.mediaDevices.getUserMedia({ video: true })
+    navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 400 } }) // Kameradan çözünürlük isteği
         .then((stream) => {
             video.srcObject = stream;
         })
@@ -18,12 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Kamera açılırken bir hata oluştu: ', error);
         });
 
+    // İlk açılışta "Dosya Yükle" seçeneğini aktif yap
+    document.getElementById('video-container').style.display = 'none';
+    captureButton.style.display = 'none';
+    fileInput.style.display = 'inline-block';
+    uploadButton.style.display = 'inline-block';
+
     // Fotoğraf Çekme
     captureButton.addEventListener('click', () => {
         const context = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Sabit boyut ayarı (örneğin, 640x480)
+        const fixedWidth = 640;
+        const fixedHeight = 480;
+
+        canvas.width = fixedWidth;
+        canvas.height = fixedHeight;
+
+        // Görüntüyü sabit çözünürlüğe göre çiz
+        context.drawImage(video, 0, 0, fixedWidth, fixedHeight);
         currentImageData = canvas.toDataURL('image/png');  // Kameradan alınan görüntü
         applyImageProcessing(currentImageData);  // Bu görüntüye işlem uygula
         showToast('Fotoğraf başarıyla çekildi!');
@@ -42,6 +56,23 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(file);
         } else {
             alert('Lütfen bir resim seçin.');
+        }
+    });
+
+    // Fotoğraf Yükleme Seçimi
+    inputSelect.addEventListener('change', (event) => {
+        const selection = event.target.value;
+
+        if (selection === 'camera') {
+            document.getElementById('video-container').style.display = 'block';
+            captureButton.style.display = 'inline-block';
+            fileInput.style.display = 'none';
+            uploadButton.style.display = 'none';
+        } else {
+            document.getElementById('video-container').style.display = 'none';
+            captureButton.style.display = 'none';
+            fileInput.style.display = 'inline-block';
+            uploadButton.style.display = 'inline-block';
         }
     });
 

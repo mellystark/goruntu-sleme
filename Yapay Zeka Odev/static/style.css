@@ -240,3 +240,36 @@ body {
 .toast .btn-close:hover {
     color: #000000; /* Kapatma butonunun üzerine gelindiğinde renk değişir */
 }
+
+#input-select.form-select {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 2px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px;
+}
+#input-select {
+    font-size: 1.25rem; /* Yazı boyutunu artır */
+    font-weight: bold; /* Yazıyı kalın yap */
+    color: #555; /* Yazı rengini ayarla */
+    background-color: #f9f9f9; /* Arka plan rengi */
+    border: 2px solid #e91e63; /* Çerçeve rengi */
+    border-radius: 10px; /* Köşe yuvarlaklığı */
+    padding: 10px; /* İçerik dolgusu */
+    transition: all 0.3s ease; /* Geçiş efekti */
+}
+
+#input-select:hover {
+    border-color: #d81b60; /* Hover'da çerçeve rengini değiştir */
+    background-color: #fce4ec; /* Hover'da arka plan rengini değiştir */
+}
+label[for="input-select"] {
+    color: #d81b60 !important;
+    font-size: 1.5rem; /* Yazı boyutunu büyüt */
+    font-weight: bold; /* Yazıyı kalın yap */
+    color: #333; /* Renk tercihi (isteğe bağlı) */
+    margin-bottom: 10px; /* Alt boşluk ekle */
+}
+

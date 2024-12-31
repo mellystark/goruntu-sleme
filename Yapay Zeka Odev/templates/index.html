@@ -28,40 +28,50 @@
                 <div class="card">
                     <h2 class="card-title text-center">Görüntü İşleme</h2>
                     <div class="text-center">
-                        <div id="video-container">
+                        <!-- Seçim Butonları -->
+                        <div class="form-group mt-3">
+                            <label for="input-select">Fotoğraf Yükleme Seçeneği</label>
+                            <select id="input-select" class="form-select">
+                                <option value="camera">Kamera ile Çek</option>
+                                <option value="file" selected>Dosya Yükle</option>
+                            </select>
+                        </div>
+
+                        <!-- Kamera Görüntü Alanı -->
+                        <div id="video-container" class="mt-3">
                             <video id="camera" autoplay></video>
                             <canvas id="snapshot"></canvas>
                         </div>
-                        <button id="capture" class="btn btn-pink btn-lg mt-3">Fotoğraf Çek</button>
-                        <input type="file" id="file" class="form-control mt-3" />
-                        <button id="upload-btn" class="btn btn-pink btn-lg mt-3">Resim Yükle</button>
+                        <button id="capture" class="btn btn-pink btn-lg mt-3" style="display:none;">Fotoğraf Çek</button>
+
+                        <!-- Dosya Yükleme Alanı -->
+                        <input type="file" id="file" class="form-control mt-3" style="display:none;" />
+                        <button id="upload-btn" class="btn btn-pink btn-lg mt-3" style="display:none;">Resim Yükle</button>
                     </div>
                 </div>
             </div>
-            
 
-                <!-- İşlem Seçme -->
-                <div class="card mt-3">
-                    <div class="form-group select-container">
-                        <label for="operation-select">İşlem Seçin</label>
-                        <select id="operation-select" class="form-select">
-                            <option value="grayscale">Gri Tonlama</option>
-                            <option value="blur">Bulanıklaştırma</option>
-                            <option value="canny">Kenar Tespiti</option>
-                            <option value="harris">Harris Köşe Tespiti</option>
-                            <option value="contour">Kontur Tespiti</option>
-                            <option value="sharpen">Keskinleştirme</option>
-                            <option value="rotate">Döndürme</option>
-                            <option value="flip">Ayna Yansıması</option>
-                            <option value="sepia">Sepya Efekti</option>
-                            <option value="threshold">Eşikleme</option>
-                            <option value="histogram">Histogram Eşitleme</option>
-                            <option value="dilation">Genişletme</option>
-                            <option value="erosion">Erozyon</option>
-                        </select>
-                    </div>
-                    <button id="apply-operation" class="btn btn-success btn-lg w-100">İşlemi Uygula</button>
+            <!-- İşlem Seçme -->
+            <div class="card mt-3">
+                <div class="form-group select-container">
+                    <label for="operation-select">İşlem Seçin</label>
+                    <select id="operation-select" class="form-select">
+                        <option value="grayscale">Gri Tonlama</option>
+                        <option value="blur">Bulanıklaştırma</option>
+                        <option value="canny">Kenar Tespiti</option>
+                        <option value="harris">Harris Köşe Tespiti</option>
+                        <option value="contour">Kontur Tespiti</option>
+                        <option value="sharpen">Keskinleştirme</option>
+                        <option value="rotate">Döndürme</option>
+                        <option value="flip">Ayna Yansıması</option>
+                        <option value="sepia">Sepya Efekti</option>
+                        <option value="threshold">Eşikleme</option>
+                        <option value="histogram">Histogram Eşitleme</option>
+                        <option value="dilation">Genişletme</option>
+                        <option value="erosion">Erozyon</option>
+                    </select>
                 </div>
+                <button id="apply-operation" class="btn btn-success btn-lg w-100">İşlemi Uygula</button>
             </div>
 
             <!-- Sonuç Tabı -->
@@ -80,18 +90,17 @@
             </div>
         </div>
         <!-- Toast Mesajı -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-            <strong class="me-auto">Bildirim</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <div class="toast-container position-fixed top-0 end-0 p-3">
+            <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Bildirim</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <!-- Mesaj buraya gelecek -->
+                </div>
+            </div>
         </div>
-        <div class="toast-body">
-            <!-- Mesaj buraya gelecek -->
-        </div>
-    </div>
-</div>
-
     </div>
 
     <!-- Bootstrap JS -->
